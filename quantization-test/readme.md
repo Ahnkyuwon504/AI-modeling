@@ -5,4 +5,4 @@
 - 비트수를 낮춰가면 필연적으로 성능이 떨어지지만, 용량과 메모리 필요량이 줄어들게 되고, 연산량도 낮아져서 token 생성 속도가 빨라짐
 - 현재 1비트 양자화까지 나와 있는 상태
 - 16비트 모델과 유사한 성능은 4비트까지가 한계
-- 해당 Repo에서는 transformer 라이브러리의 BitAndBytes 모듈 사용
+- 해당 Repo에서는 transformers 라이브러리의 BitsAndBytesConfig 모듈 사용
