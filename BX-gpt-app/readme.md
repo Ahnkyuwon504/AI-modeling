@@ -2,6 +2,8 @@
 
 ## Abstract
 
+- CBP Certi/01-제품소개, 11-아키텍처, 12-공통, 21-베이스, 22-상품, 23-액터, 24-계약, 25-정산 파트의 마크다운 문서 기반
+
 
 
 ## 어플리케이션 구현 기술
@@ -32,7 +34,12 @@
 
 
 
-## TBD
+## Review
+
+- CBP certi PDF파일 내부의 텍스트를 의미론적으로 나누는 것이 꽤 어려웠습니다. 뉴스 기사처럼 텍스트가 쭉 있는게 아니어서 여러 시행착오 했습니다.
+- Semantic을 반영한 chunking을 많이 시도했는데, CBP certi 특성상 문서가 아래 사진과 같이 문단으로 나누어져 있으므로, 그것을 기준으로 chunking한 결과가 가장 좋았습니다.
+<img width="383" alt="image" src="https://github.com/Ahnkyuwon504/AI-modeling/assets/81452902/2542065c-fb6a-49a9-97b1-14973c0fb239">
+
 
 
 
