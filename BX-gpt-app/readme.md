@@ -2,7 +2,23 @@
 
 ## Abstract
 
+### idea
+- llm 추론에 있어 cost지불하지 않고도 임직원이 사용할 수 있도록 로컬 모델 파인튜닝/vectordb 구축
+- colab/T4 GPU 사용으로 학습과 추론에 있어 컴퓨팅자원이 제한되어 성능은 다소 떨어짐
+
+### Service1. instruction-tuning
+- llm 파인튜닝: CBP Certi 문서 data로 질의응답 dataset 생성해 학습에 사용
+
+### Service2. RAG
+- mongodb VectorSearch: CBP Certi 문서 chunking/embedding 후 질문에 대해 유사도검색을 거쳐 llm 답변 생성/근거제시
+
+### Service3. 예상문제
+- Q/A generation: white noise로부터 CBP Certi 문서 중 무작위로 추출해 q/a instruction 파인튜닝된 llm을 통해 예상문제/답변 생성
+
+### etc
 - CBP Certi/01-제품소개, 11-아키텍처, 12-공통, 21-베이스, 22-상품, 23-액터, 24-계약, 25-정산 파트의 마크다운 문서 기반
+- 모델 추론시 API호출로 cost가 발생하지 않도록 로컬 llm을 설치/파인튜닝
+- instruction-tuning에 필요한 dataset을 만들기 위해 api 사용(약 원)
 
 
 
