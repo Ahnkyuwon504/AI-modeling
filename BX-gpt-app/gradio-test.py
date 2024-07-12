@@ -5,4 +5,5 @@ def greet(name):
 
 demo = gr.Interface(fn=greet, inputs="text", outputs="text")
 
+# test
 demo.launch(server_name="0.0.0.0")
