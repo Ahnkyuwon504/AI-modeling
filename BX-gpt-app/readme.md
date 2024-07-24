@@ -88,18 +88,18 @@
 ### 3.2. model/data
 ![image](https://github.com/user-attachments/assets/62881e44-4591-4bc6-a07f-d7499d5a9a50)
 
-#### 3.2.1. preprocess.ipynb
+#### 3.2.1. [preprocess.ipynb](https://github.com/Ahnkyuwon504/AI-modeling/blob/main/BX-gpt-app/preprocess.ipynb)
 - CBP Certi 마크다운 문서 전처리/청킹
 - api를 통해 instruction dataset 생성
 
-#### 3.2.2. embed.ipynb
+#### 3.2.2. [embed.ipynb](https://github.com/Ahnkyuwon504/AI-modeling/blob/main/BX-gpt-app/embed.ipynb)
 - 청킹된 문서를 벡터로 임베딩
 - mongoDB 적재
 
-#### 3.2.3. train.ipynb
+#### 3.2.3. [train.ipynb](https://github.com/Ahnkyuwon504/AI-modeling/blob/main/BX-gpt-app/train.ipynb)
 - 모델 파인튜닝
 
-#### 3.2.4. gradio-app.py
+#### 3.2.4. [gradio-app.py](https://github.com/Ahnkyuwon504/AI-modeling/blob/main/BX-gpt-app/gradio-app.py)
 - gradio 웹서버 구동 
 
 ## 4. Review
