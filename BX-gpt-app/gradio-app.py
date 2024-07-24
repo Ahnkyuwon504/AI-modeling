@@ -91,7 +91,7 @@ def llama_cpp_server_call_rag(query):
     collection = get_mongo_client_db_collection(os.environ.get('MONGO_URI'))
     prompt = get_retrieval_prompt(query, collection)
 
-    url = "http://172.31.3.51:8080/completion"
+    url = "http://" + os.environ.get('PRIVATE_IP') + ":8080/completion"
     headers = {"Content-Type": "application/json"}
     data = {
         "prompt": prompt,
@@ -106,7 +106,7 @@ def llama_cpp_server_call_rag(query):
 """INSTRUCTION TUNING"""
 def llama_cpp_server_call_it(query):
     formatted_query = f"### Instruction: {query}\n\n### Response:"
-    url = "http://172.31.3.51:8081/completion"
+    url = "http://" + os.environ.get('PRIVATE_IP') + ":8081/completion"
     headers = {"Content-Type": "application/json"}
     data = {
         "prompt": formatted_query,
@@ -125,7 +125,7 @@ def llama_cpp_server_call_it_rag(query):
     prompt = get_retrieval_prompt(query, collection)
     formatted_prompt = f"### Instruction: {prompt}\n\n### Response:"
 
-    url = "http://172.31.3.51:8081/completion"
+    url = "http://" + os.environ.get('PRIVATE_IP') + ":8081/completion"
     headers = {"Content-Type": "application/json"}
     data = {
         "prompt": prompt,
