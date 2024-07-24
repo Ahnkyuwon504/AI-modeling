@@ -1,5 +1,7 @@
 # BX-gpt application
 
+![image](https://github.com/user-attachments/assets/f576e06d-8117-47d2-b084-3fe79ca3c7ec)
+
 ## 1. Abstract
 
 ### 1.0. idea
@@ -59,26 +61,6 @@
 ### 2.5. API
 - openai api 사용
 - 청킹된 `CBP Certi` 문서를 프롬프트로 요청
-- 아래의 프롬프트 사용
-```python
-"""
-document를 참고해 question과 answer 쌍을 생성하세요.
-question은 document의 내용에 대해 물어보는 내용입니다.
-answer은 question에 대해 document를 기반으로 답변하는 내용입니다.
-question과 answer 쌍을 10개 생성하세요.
-
-요구사항은 다음과 같습니다:
-1. 문제의 다양성을 위해 question은 비슷한 단어로 반복하지 않습니다.
-2. answer은 최대한 간결한 내용으로 작성되어야 합니다.
-3. question은 document에 대해 물어보는 내용이며, 100단어 정도로 구성해주세요.
-4. answer은 document를 기반으로 자세한 내용이 포함되도록 제공되어야하지만 100단어 정도로 구성해주세요.
-5. 출력 형식은 JSON포맷을 따라야 하며, Indentation은 없도록 출력하세요.
-
-출력 형식은 아래 포맷을 참조하세요:
-{"question": "컴퓨터의 구성 요소는 어떻게 되어 있나요??", "answer": "CPU, 주기억장치, 보조기억장치 등으로 이루어져 있습니다."}
-{"question": "Java와 Python의 차이는 무엇인가요?", "answer": "컴파일 언어와 인터프리터 언어의 차이가 있는데요. 우선..."}
-"""
-```
 
 ### 2.6. mongoDB
 - vector Database로 활용
@@ -122,31 +104,47 @@ question과 answer 쌍을 10개 생성하세요.
 
 ## 4. Review
 
+- gemma2 9B 모델이지만 경량화한 결과 성능이 그리 뛰어나지 않습니다.
+- 로컬 모델을 통한 어플리케이션 구현에 의의를 둡니다.
+- 아키텍처 설계/클라우드 인프라 구축/학습과 추론 어플리케이션 등이 모두 처음이라 고도화가 많이 필요합니다.  
 - CBP certi PDF파일 내부의 텍스트를 의미론적으로 나누는 것이 꽤 어려웠습니다. 뉴스 기사처럼 텍스트가 쭉 있는게 아니어서 여러 시행착오 했습니다.
-- Semantic을 반영한 chunking을 많이 시도했는데, CBP certi 특성상 문서가 아래 사진과 같이 문단으로 나누어져 있으므로, 그것을 기준으로 chunking한 결과가 가장 좋았습니다.
-<img width="383" alt="image" src="https://github.com/Ahnkyuwon504/AI-modeling/assets/81452902/2542065c-fb6a-49a9-97b1-14973c0fb239">
-
+- Semantic을 반영한 chunking을 많이 시도했는데, CBP certi 특성상 문서가 문단으로 나누어져 있으므로, 그것을 기준으로 chunking한 결과가 가장 좋았습니다.
 - GPU 1대로는 빠른 추론속도를 기대하기 어려웠습니다.
 - 학습을 colab에서 진행한 관계로 dataset의 볼륨이 적었고, 1 epoch만 가능했습니다.
 - llama.cpp 을 통해 모델 로딩/추론서버 구축에 있어 수월했습니다.
 - AWS 인스턴스 대여비용이 많이 나왔습니다. ㅜㅜ
 
 
-## doc
----
+## 5. doc
 
-### Data
+### 5.1. Data
 - BwG 사내문서 공유사이트: 비공개
 
-### Embedding/Searching
+### 5.2. Embedding/Searching
 - Semantic Chunking: https://github.com/Filimoa/open-parse/blob/main/src/cookbooks/semantic_processing.ipynb
 - Vector Search: https://www.mongodb.com/ko-kr
 
-### DB
-- mongoDB: https://www.mongodb.com/ko-kr
-
-### Model
+### 5.3. Fine-tuning
 - embedding model: https://huggingface.co/jhgan/ko-sbert-sts
 - base model(instruction tuning): https://huggingface.co/beomi/gemma-ko-2b
-- base model(RAG) : https://huggingface.co/bartowski/gemma-2-9b-it-GGUF
+- base model(RAG): https://huggingface.co/bartowski/gemma-2-9b-it-GGUF
 
+### 5.4. llama.cpp
+- https://avocadaon.tistory.com/50?category=889088
+- https://github.com/ggerganov/llama.cpp/blob/master/docs/docker.md
+- http server: https://github.com/ggerganov/llama.cpp/blob/master/examples/server/README.md
+- https://www.funfun.tools/ko/ai-%EB%89%B4%EC%8A%A4/%EC%98%A4%ED%94%88-LLM%EC%9D%84-LLAMA-CPP-%EC%84%9C%EB%B2%84%EB%A1%9C-%EB%B0%B0%ED%8F%AC%ED%95%98%EA%B8%B0:-%EB%8B%A8%EA%B3%84%EB%B3%84-%EA%B0%80%EC%9D%B4%EB%93%9C-G_Raw7GEN0I
+
+### 5.5. docker
+- https://sjh9708.tistory.com/100
+
+### 5.6. RAG
+- https://huggingface.co/docs/transformers/model_doc/rag#transformers.RagModel
+
+### 5.7. AWS
+- https://velog.io/@harvey/AWS-EC2-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%9A%A9%EB%9F%89-%ED%99%95%EC%9E%A5
+- https://abdulrahman-almutlaq.medium.com/deploying-gradio-on-aws-a-beginners-quick-start-guide-85a01f269945
+- https://ksh-coding.tistory.com/72
+- https://www.lesstif.com/lpt/linux-brew-package-manager-54952258.html
+- https://velog.io/@rockwellvinca/AWS-vCPU%EA%B0%9C%EC%88%98-%EB%8A%98%EB%A6%AC%EA%B8%B0-vCPU-%EC%98%A8%EB%94%94%EB%A7%A8%EB%93%9C-%EC%A0%9C%ED%95%9C-%EB%8A%98%EB%A6%AC%EA%B8%B0
+- https://repost.aws/ko/articles/ARwfQMxiC-QMOgWykD9mco1w/how-do-i-install-nvidia-gpu-driver-cuda-toolkit-and-optionally-nvidia-container-toolkit-in-amazon-linux-2023-al2023?sc_ichannel=ha&sc_ilang=en&sc_isite=repost&sc_iplace=hp&sc_icontent=ARwfQMxiC-QMOgWykD9mco1w&sc_ipos=13
