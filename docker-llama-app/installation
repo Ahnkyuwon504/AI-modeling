@@ -6,10 +6,10 @@
 # 허깅페이스 모델에 대한 access 권한(meta-llama/Meta-Llama-3.1-8B-Instruct)
 
 # free tier에서 지원하는 t2.micro 모델은 llama.cpp(RAM 1GiB)
-# t2.small(RAM 2GiB) 인스턴스 필요
+# t2.small(RAM 2GiB) 인스턴스 필요 + 볼륨 50GB 증설
 # llama.cpp 빌드: 5분
-# 모델 다운로드:
-# 모델 변환:
+# 모델 다운로드: 2분
+# 모델 변환: 5분
 # 모델 양자화:
 # 추론: 
 ####################################
@@ -102,7 +102,7 @@ $ python3 -m venv kyuenv
 $ git clone https://github.com/ggerganov/llama.cpp
 $ cd llama.cpp
 
-# 빌드
+# 빌드(5분)
 $ make -j
 
 ####################################
@@ -122,13 +122,23 @@ $ source kyuenv/bin/activate
 $ pip install -r requirements.txt
 
 ####################################
-## 모델 다운로드
+## 모델 다운로드(2분)
 ####################################
 $ python3 download.py
 
 ####################################
 ## 모델 변환(safetensors -> bf16 gguf)
 ####################################
+# 스왑메모리 8G 추가
+$ sudo fallocate -l 8G /swapfile
+$ sudo chmod 600 /swapfile
+$ sudo mkswap /swapfile
+$ sudo swapon /swapfile
+
+# 추론간 메모리 확인
+$ free -h
+
+# gguf로 변환(5분)
 $ sh convert.sh
 
 # gguf제외하고 전부 삭제
@@ -137,6 +147,7 @@ $ find . -type f ! -name '*.gguf' -delete
 ####################################
 ## 양자화(bf16 gguf -> 5bit)
 ####################################
+# 변환(7분)
 $ sh quantize.sh
 
 ####################################
@@ -144,8 +155,8 @@ $ sh quantize.sh
 ####################################
 $ sh llama.cpp.gguf.infer.sh
 
-# gemma2 16bit 기준 약 60초
-# gemma2 5bit 기준 약 35초
+# gemma2 16bit 기준 약 60초/측정불가
+# gemma2 5bit 기준 약 35초/10분 이상
 
 ####################################
 ## GPU 기반 추론
