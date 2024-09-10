@@ -4,10 +4,12 @@
 # AWS계정(카드 등록 필요, 소액의 클라우드 지출이 발생합니다)
 # 허깅페이스 토큰(READ권한)
 # 허깅페이스 모델에 대한 access 권한(meta-llama/Meta-Llama-3.1-8B-Instruct)
-
 ####################################
 ## 인스턴스 시작
 ####################################
+# os확인
+$ cat /etc/os-release
+
 # 패키지 리스트 업데이트
 $ sudo apt-get update
 
@@ -19,30 +21,6 @@ $ sudo apt-get install \
     gnupg \
     lsb-release \
     software-properties-common
-
-####################################
-## docker 설치
-####################################    
-# GPG key 추가
-$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-
-# docker 저장소 설정
-$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# 패키지 리스트 다시 업데이트
-$ sudo apt-get update
-
-# docker 설치
-$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# 현재 사용자를 docker그룹에 추가
-$ sudo usermod -aG docker $USER
-
-# 도커세션 새로고침
-$ newgrp docker
-
-# 확인
-$ docker run hello-world
 
 ####################################
 ## git 설치
@@ -67,6 +45,30 @@ Host github.com
      Port 22
 
 # git clone
+
+####################################
+## docker 설치
+####################################    
+# GPG key 추가
+$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+
+# docker 저장소 설정
+$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 패키지 리스트 다시 업데이트
+$ sudo apt-get update
+
+# docker 설치
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# 현재 사용자를 docker그룹에 추가
+$ sudo usermod -aG docker $USER
+
+# 도커세션 새로고침
+$ newgrp docker
+
+# 확인
+$ docker run hello-world
 
 ####################################
 ## python 설치
