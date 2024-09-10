@@ -2,11 +2,11 @@ import gradio as gr
 import requests
 
 def generate_text(prompt):
-    url = "http://172.31.33.86:8080/completion"
+    url = "http://15.165.212.238:8080/completion"
     headers = {"Content-Type": "application/json"}
     data = {
         "prompt": prompt,
-        "n_predict": 64
+        "n_predict": 256
     }
     print(prompt)
     response = requests.post(url, headers=headers, json=data)
