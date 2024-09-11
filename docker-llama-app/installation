@@ -10,13 +10,31 @@
 # 옵션3: t2.midium(2CPU/4GiB)
 
 # 볼륨 50GB 증설 필요
+# t2.small
 # llama.cpp 빌드: 5분
 # 모델 다운로드: 2분
 # 모델 변환: 5분
-# 모델 양자화:
-# 추론: 
+# 모델 양자화: 7분
+# 추론: 측정불가
+
+# t2.midium
 ####################################
-## 인스턴스 시작
+## 개발환경
+####################################
+# 인스턴스 시작
+
+# VS Code 설치/[ssh] 플러그인 설치
+
+# key.pem을 C:\Users\{user}\.ssh 폴더로 복사
+
+# .ssh 내용
+Host cpu
+  HostName {public IPv4}
+  User ubuntu
+  IdentityFile ~/.ssh/key.pem
+
+####################################
+## 인스턴스 진입
 ####################################
 # os확인
 $ cat /etc/os-release
@@ -41,6 +59,7 @@ $ sudo apt install git
 # 확인
 $ git --version
 
+# (옵션: git push를 위한 key등록)
 # ssh키 추가
 $ ssh-keygen -t rsa -b 2048 -f ~/.ssh/test_key
 
@@ -100,12 +119,13 @@ $ sudo apt install python3-venv
 $ python3 -m venv kyuenv
 
 ####################################
-## llama.cpp 설치
+## llama.cpp 설치(7분)
 ####################################
 $ git clone https://github.com/ggerganov/llama.cpp
 $ cd llama.cpp
 
-# 빌드(5분)
+# 빌드
+# 인스턴스 유형에 따라 -j옵션(병렬처리)을 주면 인스턴스가 뻗을수있음
 $ make -j
 
 ####################################
@@ -122,6 +142,8 @@ $ source ~/.bashrc
 ## 필요 패키지 설치
 ####################################
 $ source kyuenv/bin/activate
+
+$ cd AI-modeling/docker-llama-app/
 $ pip install -r requirements.txt
 
 ####################################
@@ -130,7 +152,7 @@ $ pip install -r requirements.txt
 $ python3 download.py
 
 ####################################
-## 모델 변환(safetensors -> bf16 gguf)
+## 모델 변환(3분)
 ####################################
 # 스왑메모리 8G 추가
 $ sudo fallocate -l 8G /swapfile
@@ -141,7 +163,10 @@ $ sudo swapon /swapfile
 # 추론간 메모리 확인
 $ free -h
 
-# gguf로 변환(5분)
+# 모델 경로 이동
+$ mv models/ ~/
+
+# safetensors -> bf16 gguf
 $ sh convert.sh
 
 # gguf제외하고 전부 삭제
