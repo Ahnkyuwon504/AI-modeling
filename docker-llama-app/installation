@@ -5,8 +5,11 @@
 # 허깅페이스 토큰(READ권한)
 # 허깅페이스 모델에 대한 access 권한(meta-llama/Meta-Llama-3.1-8B-Instruct)
 
-# free tier에서 지원하는 t2.micro 모델은 llama.cpp(RAM 1GiB)
-# t2.small(RAM 2GiB) 인스턴스 필요 + 볼륨 50GB 증설
+# 옵션1: (free tier) t2.micro(1CPU/1GiB) llama.cpp 빌드가 불가능
+# 옵션2: t2.small(1CPU/2GiB) 추론이 너무 오래걸림. 식사하고 와야함
+# 옵션3: t2.midium(2CPU/4GiB)
+
+# 볼륨 50GB 증설 필요
 # llama.cpp 빌드: 5분
 # 모델 다운로드: 2분
 # 모델 변환: 5분
