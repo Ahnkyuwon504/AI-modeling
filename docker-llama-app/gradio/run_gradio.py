@@ -2,7 +2,7 @@ import gradio as gr
 import requests
 
 def generate_text(prompt):
-    url = "http://15.165.212.238:8080/completion"
+    url = "http://{private IPv4}:8080/completion"
     headers = {"Content-Type": "application/json"}
     data = {
         "prompt": prompt,
